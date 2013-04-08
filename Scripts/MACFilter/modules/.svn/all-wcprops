@@ -1,0 +1,59 @@
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/repos/!svn/ver/5/desarrollos/macfilter/trunk/applications/macfilter/modules
+END
+expect.py
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/repos/!svn/ver/5/desarrollos/macfilter/trunk/applications/macfilter/modules/expect.py
+END
+sync.py
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/repos/!svn/ver/5/desarrollos/macfilter/trunk/applications/macfilter/modules/sync.py
+END
+serviceDeskConnector.py.bk
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/repos/!svn/ver/5/desarrollos/macfilter/trunk/applications/macfilter/modules/serviceDeskConnector.py.bk
+END
+serviceDeskConnector.py.bak
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/repos/!svn/ver/5/desarrollos/macfilter/trunk/applications/macfilter/modules/serviceDeskConnector.py.bak
+END
+__init__.py
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/repos/!svn/ver/5/desarrollos/macfilter/trunk/applications/macfilter/modules/__init__.py
+END
+sshToApsManager.py
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/repos/!svn/ver/5/desarrollos/macfilter/trunk/applications/macfilter/modules/sshToApsManager.py
+END
+test.py
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/repos/!svn/ver/5/desarrollos/macfilter/trunk/applications/macfilter/modules/test.py
+END
+serviceDeskConnector.py
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/repos/!svn/ver/5/desarrollos/macfilter/trunk/applications/macfilter/modules/serviceDeskConnector.py
+END
+run.py
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/repos/!svn/ver/5/desarrollos/macfilter/trunk/applications/macfilter/modules/run.py
+END

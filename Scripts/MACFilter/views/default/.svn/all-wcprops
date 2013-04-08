@@ -1,0 +1,71 @@
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/repos/!svn/ver/5/desarrollos/macfilter/trunk/applications/macfilter/views/default
+END
+index.html
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/repos/!svn/ver/5/desarrollos/macfilter/trunk/applications/macfilter/views/default/index.html
+END
+data.html
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/repos/!svn/ver/5/desarrollos/macfilter/trunk/applications/macfilter/views/default/data.html
+END
+error.html
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/repos/!svn/ver/5/desarrollos/macfilter/trunk/applications/macfilter/views/default/error.html
+END
+listDevices.html
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/repos/!svn/ver/5/desarrollos/macfilter/trunk/applications/macfilter/views/default/listDevices.html
+END
+resumen.html
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/repos/!svn/ver/5/desarrollos/macfilter/trunk/applications/macfilter/views/default/resumen.html
+END
+syncker.html
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/repos/!svn/ver/5/desarrollos/macfilter/trunk/applications/macfilter/views/default/syncker.html
+END
+user.html
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/repos/!svn/ver/5/desarrollos/macfilter/trunk/applications/macfilter/views/default/user.html
+END
+buscar.html
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/repos/!svn/ver/5/desarrollos/macfilter/trunk/applications/macfilter/views/default/buscar.html
+END
+listAps.html
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/repos/!svn/ver/5/desarrollos/macfilter/trunk/applications/macfilter/views/default/listAps.html
+END
+listEsquemas.html
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/repos/!svn/ver/5/desarrollos/macfilter/trunk/applications/macfilter/views/default/listEsquemas.html
+END
+listVlans.html
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/repos/!svn/ver/5/desarrollos/macfilter/trunk/applications/macfilter/views/default/listVlans.html
+END

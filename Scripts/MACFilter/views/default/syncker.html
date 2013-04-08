@@ -1,0 +1,10 @@
+{{extend 'layout.html'}}
+
+<h1> Resultados de la syncronización </h1>
+<b>Recuerde que puede ver un log completo en /tmp/macfilter.log</b>
+
+<ul>
+{{for sl in service_log:}}
+  <li>{{=sl}}</li>
+{{pass}}
+</ul>

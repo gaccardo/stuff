@@ -1,0 +1,26 @@
+{{extend 'layout.html'}}
+
+<h1>Aps</h1>
+
+<hr />
+
+<table>
+ <tr>
+  <td><b>Nombre</td>
+  <td><b>IP</td>
+  <td><b>Esquema</td>
+  <td><b>Acciones</td>
+ </tr>
+
+ {{for ap in result:}}
+ <tr>
+  <td>{{=ap.ap.name}}</td>
+  <td>{{=ap.ap.ip}}</td>
+  <td>{{=ap.esquema.name}}</td>
+  <td><a href="{{=URL('data',args=['delete','ap',ap.ap.id])}}">BORRAR</a> | <a href="{{=URL('data',args=['update','ap',ap.ap.id])}}">MODIFICAR</a></td>
+ </tr>
+ {{pass}}
+</table>
+
+<hr />
+<hr />

@@ -1,0 +1,22 @@
+{{extend 'layout.html'}}
+<h1>Resumen</h1>
+
+<h3>Sumatoria de dispositivos en VLANs 700 (Global)</h3>
+<i>Buenos Aires</i><br>
+701: {{=result[2]['701 AR-Buenos Aires']}}<br>
+702: {{=result[1]['702 AR-Buenos Aires']}}<br>
+
+<b>TOTAL (700): {{=result[0]['700 AR-Buenos Aires']}}</b> 
+
+{{if result[2]['701 AR-Buenos Aires']+result[1]['702 AR-Buenos Aires']==result[0]['700 AR-Buenos Aires']:}}
+  <b><font color="green">OK</font></b>
+{{else:}}
+  <b><font color="red">ALGO NO ESTÁ BIEN</font></b>
+{{pass}}
+
+<br><br>
+
+<i>Boston</i><br>
+702: {{=result[4]['702 US-Boston']}}<br>
+<b>  TOTAL (700): {{=result[3]['700 US-Boston']}}</b>
+<b><font color="green">OK</font></b>

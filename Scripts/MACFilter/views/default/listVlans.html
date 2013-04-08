@@ -1,0 +1,28 @@
+{{extend 'layout.html'}}
+
+<h1>Vlans</h1>
+
+<hr />
+
+<table>
+ <tr>
+     <td><b>Nombre</b></td>
+     <td><b>Esquema</b></td>
+     <td><b>Acciones</b></td>
+ </tr>
+
+ {{for vlan in result:}}
+   <tr>
+    <td>{{=vlan.vlan.name}}</td>
+    <td>{{=vlan.esquema.name}}</td>
+    <td>
+      {{if vlan.vlan.name != "700" and vlan.vlan.name != "702":}}
+       <a href="{{=URL('data',args=['delete','vlan',vlan.vlan.id])}}">BORRAR</a> | <a href="{{=URL('data',args=['update','vlan',vlan.vlan.id])}}">MODIFICAR</a>
+      {{pass}}
+    </td>
+   </tr>
+  {{pass}}
+</table>
+
+<hr />
+<hr />

@@ -1,0 +1,55 @@
+{{extend 'layout.html'}}
+
+<h1>Dispositivos por usuario</h1>
+
+<i><b>Página {{=page+1}} de {{=quantity}}</b> Mostrando {{=items_per_page}} dispositivos por página</i>
+
+<hr />
+
+<table>
+  <tr>
+   <td><b>MAC</td>
+   <td><b>Nombre</td>
+   <td><b>VLAN</td>
+   <td><b>Esquema</td>
+   <td><b>Acciones</td>
+  </tr>
+
+{{for i,row in enumerate(rows):}}
+{{if i==items_per_page: break}}
+  <tr>
+   <td>{{=row.device.mac}}</td>
+   <td>{{=row.device.name}}</td>
+   <td>{{=row.vlan.name}}</td>
+   <td>{{=row.esquema.name}}</td>
+   <td>
+     {{if row.vlan.name != "700" and row.vlan.name != "702":}}
+       <a href="{{=URL('data',args=['delete','device',row.device.id])}}">BORRAR</a> | <a href="{{=URL('data',args=['update','device',row.device.id])}}">MODIFICAR</a>
+     {{else:}}
+       NO MODIFICABLE
+     {{pass}}
+   </td>
+  </tr>
+
+{{pass}}
+  </table>
+
+<hr />
+
+{{if page:}}
+<a href="{{=URL(args=[page-1])}}">Anterior</a>
+{{pass}}
+
+{{if len(rows)>items_per_page:}}
+<a href="{{=URL(args=[page+1])}}">Siguiente</a>
+{{pass}}
+
+<hr />
+
+<!--
+<b>Buscar</b>
+<form method="post" action="{{=URL('default','buscar')}}">
+ <input type="text" name="buscar">
+ <input type="submit" name="dale" value="buscar">
+</form>
+-->

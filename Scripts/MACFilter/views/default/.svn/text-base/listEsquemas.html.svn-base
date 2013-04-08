@@ -1,0 +1,22 @@
+{{extend 'layout.html'}}
+
+<h1> Esquemas </h1>
+
+<hr />
+<table>
+ <tr>
+     <td><b> Nombre </b></td>
+     <td><b> Acciones </b></td>
+ </tr>
+
+ {{for esquema in result:}}
+  <tr>
+   <td>{{=esquema.name}}</td>
+   <td><a href="{{=URL('data',args=['delete','esquema',esquema.id])}}">BORRAR</a> | <a href="{{=URL('data',args=['update','esquema',esquema.id])}}">MODIFICAR</a></td>
+  </tr>
+  {{pass}}
+
+</table>
+
+<hr />
+<hr />
