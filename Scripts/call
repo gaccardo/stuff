@@ -1,0 +1,36 @@
+#!/usr/bin/env python
+
+import serial
+import time
+import sys
+
+class VoiceCall:
+    def __init__(self, dialledNumber='000000'):
+        self.dialledNumber = dialledNumber
+ 
+    def dialNumber(self):
+        self.ser = serial.Serial('/dev/ttyACM0', 460800, timeout=5)
+        self.ser.write('ATZ\r')
+                ## ATZ : Restore profile ##
+        time.sleep(1)
+        self.ser.write('ATD ' + self.dialledNumber + ';\r')
+                ## ATD : Dial command ##
+                ## semicolon : voice call ##
+        time.sleep(25)
+ 
+    def endCall(self):
+        self.ser = serial.Serial('/dev/ttyACM0', 460800, timeout=5)
+        self.ser.write('ATZ\r')
+        time.sleep(1)
+        self.ser.write('AT+CHUP\r')
+        time.sleep(1)
+
+if __name__ == '__main__':
+   f_pointer = open('/tmp/call.log', 'w')
+   f_pointer.write("%s\n" % ( sys.argv[1] ))
+   f_pointer.close()
+   vc = VoiceCall( dialledNumber = sys.argv[1] )
+   vc.dialNumber()
+   time.sleep(25)
+   vc.endCall()
+#vc.endCall()
