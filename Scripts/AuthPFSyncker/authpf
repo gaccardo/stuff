@@ -1,0 +1,85 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+import sys
+import os
+
+"""
+Client for use with authpf server
+"""
+
+__version__   = "0.1"
+
+def UserExists(username):
+    authpf_dir = "/etc/authpf/users/"
+
+    if username in os.listdir(authpf_dir) and username in os.listdir("/home/"):
+        return True
+    else:
+        return False
+
+
+if sys.argv[1] == "-U" or sys.argv[1] == "--userexists":
+    result = UserExists(sys.argv[2])
+    if result:
+        print "OK"
+    else:
+        print "User doesn't exists in the server"
+elif sys.argv[1] == "-A" or sys.argv[1] == "--adduser":
+    username = sys.argv[2]
+    kind     = sys.argv[3]
+    where    = sys.argv[4]
+
+    file_pro = open('profiles/%s.profile' % where)
+    buffer   = file_pro.readlines()
+    kinds   = buffer
+    file_pro.close()
+
+    users_base = '/etc/authpf/users/'
+
+    if UserExists(username):
+        print "User Alredy exists in this server"
+    else:
+        #os.symlink(kinds[ int(kind) ], users_base % username)
+        os.system("sudo mkdir %s%s" % (users_base, username))
+        os.system("sudo ln -s %s %s%s/authpf.rules" % (kinds[ int(kind) ].split('\n')[0], users_base, username))
+
+        if os.path.islink("%s%s/authpf.rules" % (users_base, username)):
+	    os.system("sudo useradd -L ldap -g authpf -m %s" % username)
+
+	    print "OK"
+        else:
+            print "There were errors creating the new user"
+
+elif sys.argv[1] == "-D" or sys.argv[1] == "--deluser":
+    username = sys.argv[2]
+    users_base = '/etc/authpf/users/'
+
+    if UserExists(username):
+
+        try:
+	    os.system("sudo userdel %s" % username)
+	    os.system("sudo rm -r %s%s" % (users_base, username))
+	    os.system("sudo rm -r /home/%s" % username)
+	    print "OK"
+	except:
+	    print "FAIL"
+    else:
+	print "User doesn't exists in the server"
+elif sys.argv[1] == "-SR" or sys.argv[1] == "--SyncRules":
+    os.system("sudo cp /etc/pf.conf .")
+    os.system("sudo chown syncker pf.conf")
+    os.system("sudo chmod a+r pf.conf")
+elif sys.argv[1] == "-GP":
+    os.system("sudo cp /home/syncker/pf.conf /etc/pf.conf")
+    os.system("sudo chown root.root /etc/pf.conf")
+    os.system("sudo chmod 600 /etc/pf.conf")
+elif sys.argv[1] == "--FakeLoad":
+    out = os.popen("sudo pfctl -f /etc/pf.conf -n ")
+    print out.readline()
+elif sys.argv[1] == "--Restore":
+    os.system("sudo cp /tmp/pf.conf.bk /etc/pf.conf") 
+elif sys.argv[1] == "--Backup":
+    os.system("sudo cp /etc/pf.conf /tmp/pf.conf.bk") 
+elif sys.argv[1] == "--LoadRules":
+    os.system("sudo pfctl -f /etc/pf.conf")
