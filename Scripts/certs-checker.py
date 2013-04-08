@@ -2,7 +2,7 @@
 #-*- coding: utf-8-*-
 
 import sys 
-sys.path.append('/etc/core/lib/')
+sys.path.append('/etc//lib/')
 
 from sshconnector import SSHConnector
 from Server       import Server
@@ -14,7 +14,7 @@ class CertChecker( object ):
 
    def __init__( self ):
       self.ssh  = SSHConnector( )
-      self.conf = Configurator( '/etc/core/cfg/cert-checker.cfg', 'cert-checker' )
+      self.conf = Configurator( '/etc//cfg/cert-checker.cfg', 'cert-checker' )
       mailto    = self.conf.getValue('MAILTO').split(',')
       self.mail = Mailer( self.conf.getValue('MAILFROM'), mailto, self.conf.getValue('SMTPRELAY') )
 
