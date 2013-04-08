@@ -11,9 +11,9 @@ import base64
 #                  CONF                   #
 ###########################################
 FILE_LOG  = '/tmp/sender.log'             #
-MAIL_TO   = 'core.mail.checker@gmail.com' #
-MAIL_FROM = 'zabbix@coresecurity.com'     #
-RELAY     = 'armail.core.sec'             #
+MAIL_TO   = ''                            #
+MAIL_FROM = 'zabbix@.com'                 #
+RELAY     = ''                            #
 HASH_FILE = '/tmp/hash.it'                #
 ###########################################
 
