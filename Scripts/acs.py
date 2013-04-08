@@ -9,9 +9,7 @@ class ACSwitcher( object ):
    def __init__( self, acs, last ):
       self.acs  = acs
       self.last = last
-      #self.mail = Mailer( 'zabbix@coresecurity.com', 'itnetworking@coresecurity.com', '192.168.13.5' )
-      self.mail = Mailer( 'zabbix@coresecurity.com', 'gaccardo@coresecurity.com', '192.168.13.5' )
-      self.mall = Mailer( 'zabbix@coresecurity.com', 'mcampos@coresecurity.com', '192.168.13.5' )
+      self.mail = Mailer( '', '', '')
 
    def __changeAC( self, new_ac ):
       f_pointer = open(self.last, 'w')
@@ -98,8 +96,8 @@ class ACSwitcher( object ):
 
 
 if __name__ == '__main__':
-  ACS = ACSwitcher( [ SNMPDevice( '10.2.10.6', 1, 'noc-core-sec-new', 'AC01 Buenos Aires' ),
-                      SNMPDevice( '10.2.10.22', 2, 'public', 'AC02 Buenos Aires' )
+  ACS = ACSwitcher( [ SNMPDevice( '', 1, '', 'AC01' ),
+                      SNMPDevice( '', 2, '', 'AC02' )
                     ], 'last'
                   )
 
