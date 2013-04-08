@@ -5,8 +5,7 @@ import StringIO
 import difflib
 
 __version__   = "0.1"
-__author__    = "Guido Accardo <gaccardo@coresecurity.com>"
-__copyright__ = "Core Security Technologies S.A."
+__author__    = "Guido Accardo <gaccardo@gmail.com>"
 __package__   = "SSHConnector 0.1"
 __docformat__ = "restructuredtext"
 
@@ -40,22 +39,7 @@ class SSHConnector(object):
 
         Have a list of lists. Any of this list is a dictionary of the form
 
-        *{host:URL, username:allowed user, group:name of server group}*
-
-        EXAMPLE
-
-        ::
-
-          authpf_bue = [ {'host':'bue1fw003', 'username':'syncker', 'group':'authpf_bue'},
-	                 {'host':'bue1fw103', 'username':'syncker', 'group':'authpf_bue'},
-                       ]
-
-          authpf_bos = [ {'host':'bos1fw003', 'username':'syncker', 'group':'authpf_bos'},
-	                 {'host':'bos1fw103', 'username':'syncker', 'group':'authpf_bos'}
-                       ]
-
-          groups = [authph_bue, authpf_bos]
-	  
+        *{host:URL, username:allowed user, group:name of server group}*	  
 
     """
 
@@ -63,7 +47,7 @@ class SSHConnector(object):
 	"""
 	:version: 0.1 Development
 	:status: development
-	:contact: Guido Accardo gaccardo@coresecurity.com
+	:contact: Guido Accardo gaccardo@gmail.com
 	"""
 	pass
 
@@ -216,11 +200,6 @@ class SSHConnector(object):
 
 	for fault in result:
             print "Choose type for user %s in %s:" % (username, fault['server'])
-            print "0- CORE Labs"
-            print "1- ENG Users"
-            print "2- IT Users"
-            print "3- ENT Devel"
-	    print "4- ENT QA"
 
 	    response = int(raw_input('Choose Type: '))
 
