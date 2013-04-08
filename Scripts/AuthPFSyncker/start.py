@@ -14,8 +14,8 @@ User management for vpn connections
 """
 
 __version__   = "0.1"
-__author__    = "Guido Accardo <gaccardo@coresecurity.com>"
-__copyright__ = "Core Security Technologies S.A."
+__author__    = "Guido Accardo <gaccardo@gmail.com>"
+
 
 VERDE = '\033[92m'
 AZUL  = '\033[94m'
