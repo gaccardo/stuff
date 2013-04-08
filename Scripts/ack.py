@@ -2,7 +2,7 @@
 
 import sys
 import re
-sys.path.append('/etc/core/lib/')
+sys.path.append('/etc//lib/')
 
 from Logger       import Logger
 from Configurator import Configurator
@@ -19,7 +19,7 @@ KEY     = None
 class ACK( object ):
 
    def __init__(self):
-      self.c = Configurator('/etc/core/cfg/ack.conf', 'ack')
+      self.c = Configurator('/etc//cfg/ack.conf', 'ack')
       self.l = Logger(self.c.getValue('FILE_LOG'), self.c.getValue('NAME'), self.c.getValue('DEBUG'))
       self.z = ZabbixDB(self.l, self.c.getValue('DB_HOST'), self.c.getValue('DB_USER'), self.c.getValue('DB_PASS'), self.c.getValue('DB_NAME'))
 
@@ -51,11 +51,11 @@ class ACK( object ):
           return subject
 
    def __sendEmail(self, user, subject, type):
-      self.m = Mailer('zabbix@coresecurity.com', self.c.getValue('MAIL_TO'), self.c.getValue('RELAY'))
+      self.m = Mailer('zabbix@.com', self.c.getValue('MAIL_TO'), self.c.getValue('RELAY'))
       self.m.sendMail("ACK: %s" % self.__clearSubject(subject, type), "ACK Message: %s" % self.__clearSubject(subject, type))
       self.l.addInfoLine('Email Sended to itnetworking')
 
-      self.m = Mailer('zabbix@coresecurity.com', user, self.c.getValue('RELAY'))
+      self.m = Mailer('zabbix@.com', user, self.c.getValue('RELAY'))
       self.m.sendMail("ACK: %s" % self.__clearSubject(subject, type), "ACK Message: %s" % self.__clearSubject(subject, type))
       self.l.addInfoLine('Email Sended to %s' % user)
 
