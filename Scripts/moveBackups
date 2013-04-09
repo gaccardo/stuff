@@ -1,0 +1,91 @@
+#!/usr/bin/env python
+
+import ConfigParser
+import os
+import shutil
+import smtplib
+import sys
+
+from email.mime.text import MIMEText
+
+class NotMounted( Exception ):
+
+  def __init__(self, value):
+    self.value = value
+
+  def __str__(self):
+    return repr(self.value)
+
+
+class configuration( object ):
+
+  def __init__(self, conffile):
+    self.conffile = conffile
+
+  def getConfig(self):
+    config = ConfigParser.ConfigParser()
+    config.read(self.conffile)
+
+    return {'from':     config.get('moveBackups','from'),
+            'to':       config.get('moveBackups','to'),
+            'messages': config.get('moveBackups','messages')
+           }
+
+
+class moveBackups( object ):
+
+  def __init__(self, conffile):
+    configurator    = configuration(conffile)
+    self.parameters = configurator.getConfig()
+  def __listFiles(self, where):
+    try:
+      volumes = os.listdir(where)
+    except OSError, e:
+      print "(' Error listing directory labeled as from ')"
+      self.__sendMessage("Please mount the external disk", "External disk is not mounted")
+      sys.exit(-20)
+
+    return volumes
+
+  def __copyFiles(self):
+    if not os.path.ismount(self.parameters['to']):
+      self.__sendMessage("Please mount the external disk", "External disk is not mounted")
+      raise NotMounted( self.parameters['to'] )
+
+    for ff in self.__listFiles(self.parameters['from']):
+      shutil.copy2("%s%s" % (self.parameters['from'], ff), "%s/Backups/" % self.parameters['to'])
+
+  def __verifyCopy(self):
+    if len(self.__listFiles(self.parameters['from'])) == len(self.__listFiles("%sBackups" % self.parameters['to'])):
+      return True
+    else:
+      return False
+
+  def __sendMessage(self, msg, title):
+    msg = MIMEText( msg )
+    msg['Subject'] = title
+    msg['From']    = 'backups@.com'
+    msg['To']      = self.parameters['messages']
+
+    s = smtplib.SMTP('1.2.3.23')
+    s.sendmail('backups@.com', self.parameters['messages'], msg.as_string())
+    s.quit()
+
+  def run(self):
+    self.__copyFiles()
+
+    msg = "Listado de volumes backupeados\n"
+
+    for ffile in self.__listFiles(self.parameters['from']):
+      msg += " * " + ffile + "\n"
+
+    if self.__verifyCopy():
+      self.__sendMessage(msg, 'Copia de backups OK')
+    else:
+      self.__sendMessage('Error al copiar el backp', 'Copia de backups ERROR')
+
+
+if __name__ == '__main__':
+   mB = moveBackups("/moveBackups.cfg")
+   mB.run()
+
