@@ -10,7 +10,7 @@
 ### END INIT INFO
 
 ##########################################################
-#   FIREWALL CABEZZALAN                                  #
+#   FIREWALL                                             #
 #   Guido Accardo <gaccardo@gmail.com>                   #
 #                                                        #
 ##########################################################
@@ -81,13 +81,13 @@ function loaddata() {
 
 function blame() {
   fecha=$(date)
-  echo "$fecha CABEZZALAN FIREWALL: $1" >> /var/log/syslog
+  echo "$fecha FIREWALL: $1" >> /var/log/syslog
 }
 
 if [ "$VERBOSE" = "1" ]; then
-  echo "##############################"
-  echo "#    FIREWALL CABEZZALAN     #"
-  echo "##############################"
+  echo "####################"
+  echo "#    FIREWALL      #"
+  echo "####################"
 fi
 
 if [ ! "$whoami" == "root" ]; then
@@ -98,19 +98,6 @@ fi
 ##########################################################
 #   DEFINICIONES DEL USUARIO                             #
 ##########################################################
-# Red cabezzalan
-CABEZZALAN="1.2.3.0/24"
-
-# Red vpn
-CABEZZAVPN="10.10.10.0/24"
-
-# WORF
-WORFLAN="1.2.3.10"
-WORFVPN="10.10.10.1"
-
-# NOC (Laforge)
-NOCLAN="1.2.3.22"
-
 # Puertos NO bloqueados de acceso al servidor externo
 PORTS_WAN_ACCEPT_TCP="1194,80"
 PORTS_WAN_ACCEPT_UDP="1194"
@@ -124,28 +111,13 @@ VIR_PORTS_TCP_WAN="53,80"
 VIR_PORTS_UDP_WAN="53"
 
 # Interfaces de red
-IF_WAN="eth2"    # Internet
-IF_LAN="eth0"    # LAN
-IF_VIR="venet0"  # Virtuales
-IF_DMZ="br0"     # Bridde DMZ
-IF_VPN="tun0"    # VPN (quexo)
-LO="lo"          # Localhost
-
-# MLDONKEY
-ML_PORTS="4662 4672"
-
-# VOIP
-VOIP_SERVER="1.2.3.21"
-
-# VPN
-IP_VPN_SERVER="10.9.8.1"
+IF_WAN=""    # Internet
+IF_LAN=""    # LAN
+LO="lo"      # Localhost
 
 # Permits puertos IPv6
 I6_TCP_PORTS="22 80"
 I6_UDP_PORTS=""
-
-#Datos de aiccu
-T59593="2001:1291:200:174::2"
 
 ### START
 
@@ -157,7 +129,7 @@ function start() {
         #   IPv4                                         #
         ##################################################
 
-        echo "CABEZZALAN FIREWALL (Iniciando): "
+        echo "FIREWALL (Iniciando): "
 
         ##################################################
         #   SYSCTL                                       #
@@ -387,12 +359,6 @@ function start() {
 	msg "Masquerade para toda la red"
         $T -t nat -A POSTROUTING -o $IF_WAN -j MASQUERADE
 
-	# Hago un source nat desde y hacia la vpn para que no se sepa de donde viene
-	msg "Ocultando ingreso desde vpn a lan"
-        $T -t nat -A POSTROUTING -o $IF_LAN    -s $CABEZZAVPN -d $CABEZZALAN -j SNAT --to-source $WORFLAN
-        $T -t nat -A POSTROUTING -o $IF_VPN -d $CABEZZAVPN -s $CABEZZALAN -j SNAT --to-source $WORFVPN
-	dot
-
         ##################################################
         #   NAVEGAN                                      #
         ##################################################
@@ -453,7 +419,7 @@ function stop() {
 ##########################################################
 #   FRENO DEL FIREWALL                                   #
 ##########################################################
-        echo "CABEZZALAN FIREWALL (Frenando): "
+        echo "FIREWALL (Frenando): "
 
         ##################################################
         #   SYSCTL                                       #
@@ -621,7 +587,7 @@ case $1 in
   ;;
 
   *)
-    echo "CABEZZALAN FIREWALL"
+    echo "FIREWALL"
     echo " "
     echo "  start:   Inicia el firewall"
     echo "  stop:    Detiene el firewall"

@@ -71,9 +71,9 @@ function check() {
 }
 
 if [ "$VERBOSE" = "1" ]; then
-  echo "##############################"
-  echo "#    FIREWALL CABEZZALAN     #"
-  echo "##############################"
+  echo "##################"
+  echo "#    FIREWALL    #"
+  echo "##################"
 fi
 
 whoami=$(whoami)
@@ -86,12 +86,6 @@ fi
 ##########################################################
 #   DEFINICIONES DEL USUARIO                             #
 ##########################################################
-# Red Cabezzalan
-red_cabezzalan="1.2.3.0/24"
-
-# Red Core
-red_corelan="10.2.40.0/24"
-
 # Puertos TCP que ingresan de cuaquier source
 tcp_input="80 8000 8080"
 
@@ -109,7 +103,7 @@ function start() {
         #   IPv4                                         #
         ##################################################
 
-        echo "CABEZZALAN FIREWALL (Iniciando): "
+        echo "FIREWALL (Iniciando): "
 
         ##################################################
         #   LIMPIEZA                                     #
@@ -209,19 +203,11 @@ function start() {
           dot
         done
 
-        # Dejo entrar SSH desde la red de Core y Cabezzalan
-        msg "Dejo entrar SSH desde la red de Cabezzalan $red_cabezzalan"
-        msg "Dejo entrar SSH desde la red de Core $red_corelan"
-        $T -A INPUT -p tcp --dport 22 -s $red_cabezzalan -j ACCEPT
-        $T -A INPUT -p tcp --dport 22 -s $red_corelan    -j ACCEPT
-        dot
-        dot
-
         echo "OK"
         ##################################################
         #   IPv6                                         #
         ##################################################
-        echo "CABEZZALAN IPv6 FIREWALL (Iniciando): "
+        echo "IPv6 FIREWALL (Iniciando): "
 
         ##################################################
         #   LIMPIEZA                                     #
@@ -257,7 +243,7 @@ function stop() {
 ##########################################################
 #   FRENO DEL FIREWALL                                   #
 ##########################################################
-        echo "CABEZZALAN FIREWALL (Frenando): "
+        echo "FIREWALL (Frenando): "
 
         ##################################################
         #   LIMPIEZA                                     #
@@ -323,7 +309,7 @@ function stop() {
         ##################################################
         #   IPv6                                         #
         ##################################################
-        echo "CABEZZALAN IPv6 FIREWALL (Frenando): "
+        echo "IPv6 FIREWALL (Frenando): "
 
         ##################################################
         #   LIMPIEZA                                     #
@@ -424,7 +410,7 @@ case $1 in
   ;;
 
   *)
-    echo "CABEZZALAN FIREWALL"
+    echo "FIREWALL"
     echo " "
     echo "  start:   Inicia el firewall"
     echo "  stop:    Detiene el firewall"
