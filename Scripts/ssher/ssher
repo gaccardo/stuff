@@ -2,6 +2,7 @@
 #-*- conding: utf-8 -*-
 import sys
 import os
+import getpass
 
 from Config import Config
 from Server import Server
@@ -10,7 +11,14 @@ from Server import Server
 class SSHER( object ):
 
     def __init__( self ):
-        self.config  = Config('/home/yo/.ssher.cfg')
+
+        try:
+            f = open('/home/%s/.ssher.cfg' % getpass.getuser(), 'r')
+        except:
+            print "Please, before use configure ~/.ssher.cfg"
+            sys.exit(-1)
+
+        self.config  = Config('/home/%s/.ssher.cfg' % getpass.getuser())
         self.servers = list()
 
     def __generateHosts( self ):
