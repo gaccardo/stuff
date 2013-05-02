@@ -1,0 +1,88 @@
+#!/usr/bin/env python
+#-*- conding: utf-8 -*-
+import sys
+import os
+
+from Config import Config
+from Server import Server
+
+
+class SSHER( object ):
+
+    def __init__( self ):
+        self.config  = Config('/home/yo/.ssher.cfg')
+        self.servers = list()
+
+    def __generateHosts( self ):
+        index = 0
+        for server in self.config.getServers():
+            self.servers.append( Server( index,
+                                         server['username'], 
+                                         server['hostname'],
+                                         server['ip'],
+                                         server['tunnel'],
+                                       ))
+
+            index += 1
+
+        return index
+
+    def __showServersList( self, pro=False ):
+
+        if pro:
+            print "| INDEX\t\t\t| HOSTNAME\t\t\t| USERNAME\t\t\t| TUNNEL\t\t\t|"
+            for server in self.servers:
+                print "| %s\t\t\t| %s\t\t\t| %s\t\t\t| %s\t\t\t|" % ( server.getId(),
+                                                                      server.getHostname(),
+                                                                      server.getUsername(),
+                                                                      server.getTunnel(),
+                                                                    )
+        else:
+            for server in self.servers:
+                print server
+
+    def __getServerById( self, id ):
+        for server in self.servers:
+            if server.id == id:
+                return server
+
+    def __sshConnect( self, server ):
+        if server.getTunnel() == 'None':
+            os.system( "ssh %s@%s" % ( server.getUsername(), server.getIp() ) )
+        else:
+            print "ssh %s@%s -L %s" % ( server.getUsername(), server.getIp(), server.getTunnel() )
+            os.system( "ssh %s@%s -L %s" % ( server.getUsername(), server.getIp(), server.getTunnel() ) )
+
+    def main( self, args ):
+        count = self.__generateHosts()
+
+        try:
+            if args[1]   == '-l':
+                self.__showServersList()
+                return 0
+            if args[1]   == '-L':
+                self.__showServersList(pro=True)
+                return 0
+            elif args[1] == '-h':
+                print "help"
+                return 0
+            else:
+                try:
+                    if int( args[1] ) >= count:
+                        print "Server not found"
+                        return -1
+                    else:
+                        server = self.__getServerById( int( args[1] ) )
+                        print "establishing connection to: %s" % server
+                        self.__sshConnect( server )
+                except ValueError:
+                    print "Invalid option"
+                    return -1
+        except IndexError:
+            self.__showServersList()
+
+
+if __name__ == '__main__':
+    ssher = SSHER()
+
+    sys.exit( ssher.main( sys.argv ) )
