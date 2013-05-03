@@ -58,8 +58,13 @@ class SSHER( object ):
         if server.getTunnel() == 'None':
             os.system( "ssh %s@%s" % ( server.getUsername(), server.getIp() ) )
         else:
-            print "ssh %s@%s -L %s" % ( server.getUsername(), server.getIp(), server.getTunnel() )
-            os.system( "ssh %s@%s -L %s" % ( server.getUsername(), server.getIp(), server.getTunnel() ) )
+            print "ssh %s@%s -L %s" % ( server.getUsername(), 
+                                        server.getIp(),
+                                        server.getTunnel()
+                                      )
+            os.system( "ssh %s@%s -L %s" % ( server.getUsername(), 
+                                             server.getIp(),
+                                             server.getTunnel() ) )
 
     def main( self, args ):
         count = self.__generateHosts()
