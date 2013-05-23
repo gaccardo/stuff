@@ -47,7 +47,7 @@ class MainException( Exception ):
 
 
 ## This are exception examples, should be replaced by users Custom Exception ##
-class OutOfRange( MainException ):            pass
-class ZeroDivision( MainException ):          pass
-class UserNotAuthenticated( MainException ):  pass
+class OutOfRange(            MainException ): pass
+class ZeroDivision(          MainException ): pass
+class UserNotAuthenticated(  MainException ): pass
 class SMTPRecipientsRefused( MainException ): pass
