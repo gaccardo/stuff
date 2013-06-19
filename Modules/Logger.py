@@ -36,7 +36,9 @@ class Logger( object ):
    def __addLine(self, msg, level):
       if self.__translateLevel(level) <= self.__level:
          file_pointer = open(self.file, 'a')
-         file_pointer.write('%s -> %s [ %s ]:: %s\n' % (time.asctime(), self.__system, level, msg))
+         file_pointer.write('%s -> %s [ %s ]:: %s\n' % (time.asctime(), 
+                                                        self.__system, 
+                                                        level, msg))
          file_pointer.close()
 
    def addErrorLine(self, msg):
