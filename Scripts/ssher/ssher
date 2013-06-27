@@ -46,8 +46,19 @@ class SSHER( object ):
                                                                       server.getTunnel(),
                                                                     )
         else:
+            print "-----------------------------------------------------------------"
+            print "| ID\t| Connection                                            |"
+            print "-----------------------------------------------------------------"
+
             for server in self.servers:
-                print server
+                if len(server.__str__().split(' ')[1]) >= 23:
+                    print "| %s\t| %s \t\t\t\t|" % (server.__str__().split(' ')[0],
+                                                    server.__str__().split(' ')[1])
+                else:
+                    print "| %s\t| %s \t\t\t\t\t|" % (server.__str__().split(' ')[0],
+                                                      server.__str__().split(' ')[1])
+
+            print "-----------------------------------------------------------------"
 
     def __getServerById( self, id ):
         for server in self.servers:
