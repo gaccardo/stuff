@@ -29,6 +29,7 @@ class SSHER( object ):
                                          server['hostname'],
                                          server['ip'],
                                          server['tunnel'],
+                                         server['port'],
                                        ))
 
             index += 1
@@ -40,10 +41,11 @@ class SSHER( object ):
         if pro:
             print "| INDEX\t\t\t| HOSTNAME\t\t\t| USERNAME\t\t\t| TUNNEL\t\t\t|"
             for server in self.servers:
-                print "| %s\t\t\t| %s\t\t\t| %s\t\t\t| %s\t\t\t|" % ( server.getId(),
+                print "| %s\t\t\t| %s\t\t\t| %s\t\t\t| %s\t\t\t| %s" % ( server.getId(),
                                                                       server.getHostname(),
                                                                       server.getUsername(),
                                                                       server.getTunnel(),
+                                                                      server.getPort(),
                                                                     )
         else:
             print "-----------------------------------------------------------------"
@@ -52,10 +54,10 @@ class SSHER( object ):
 
             for server in self.servers:
                 if len(server.__str__().split(' ')[1]) >= 23:
-                    print "| %s\t| %s \t\t\t\t|" % (server.__str__().split(' ')[0],
+                    print "| %s\t| %s \t\t\t\t" % (server.__str__().split(' ')[0],
                                                     server.__str__().split(' ')[1])
                 else:
-                    print "| %s\t| %s \t\t\t\t\t|" % (server.__str__().split(' ')[0],
+                    print "| %s\t| %s \t\t\t\t\t" % (server.__str__().split(' ')[0],
                                                       server.__str__().split(' ')[1])
 
             print "-----------------------------------------------------------------"
@@ -67,15 +69,23 @@ class SSHER( object ):
 
     def __sshConnect( self, server ):
         if server.getTunnel() == 'None':
-            os.system( "ssh %s@%s" % ( server.getUsername(), server.getIp() ) )
+            if server.getPort() != 'None':
+                os.system( "ssh %s@%s -p %s" % ( server.getUsername(), server.getIp(), server.getPort() ) )
+
         else:
             print "ssh %s@%s -L %s" % ( server.getUsername(), 
                                         server.getIp(),
                                         server.getTunnel()
                                       )
-            os.system( "ssh %s@%s -L %s" % ( server.getUsername(), 
-                                             server.getIp(),
-                                             server.getTunnel() ) )
+            if server.getPort() != 'None':
+                os.system( "ssh %s@%s -L %s" % ( server.getUsername(), 
+                                                 server.getIp(),
+                                                 server.getTunnel() ) )
+            else:
+                os.system( "ssh %s@%s -L %s -p %s" % ( server.getUsername(), 
+                                                 server.getIp(),
+                                                 server.getTunnel(),
+                                                 server.getPort() ) )
 
     def main( self, args ):
         count = self.__generateHosts()

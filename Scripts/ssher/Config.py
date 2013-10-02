@@ -17,6 +17,7 @@ class Config( object ):
                              'username': self.config.get( section, 'username' ),
                              'ip'      : self.config.get( section, 'ip' ),
                              'tunnel'  : self.config.get( section, 'tunnel'),
+                             'port'    : self.config.get( section, 'port'),
                            }
                           )
 
