@@ -36,23 +36,21 @@ class Pybles(object):
         if len(cell) > self.longest:
           self.longest = len(cell)
 
-    return self.longest
-
-  def configure_length(self):
+  def configure_length(self, header, lines):
     new_header = list()
     new_lines  = list()
 
-    for cell in self.header:
+    for cell in header:
       if len(cell) < self.longest:
         add = self.longest - len(cell)
         blank = ' ' * add
         cell = '%s%s' % (cell, blank)
 
         new_header.append(cell)
+      else:
+        new_header.append(cell)
 
-    self.header = new_header
-
-    for line in self.lines:
+    for line in lines:
       new_line = list()
       for cell in line:
         if len(cell) < self.longest:
@@ -61,17 +59,21 @@ class Pybles(object):
           cell = '%s%s' % (cell, blank)
 
           new_line.append(cell)
+        else:
+          new_line.append(cell)
 
       new_lines.append(new_line)
 
-    self.lines = new_lines
 
-    print self.header
-    print self.lines
-      
+    return new_header, new_lines
 
   def show_table(self):
-    self.configure_length()
+    self.get_longest_cell()
+    header, lines = self.configure_length(self.header, self.lines)
+
+    print header 
+    for line in lines:
+      print line
 
 
 PB = Pybles()
