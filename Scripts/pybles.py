@@ -69,16 +69,34 @@ class Pybles(object):
 
   def show_table(self):
     self.get_longest_cell()
-    header, lines = self.configure_length(self.header, self.lines)
+    header, lines  = self.configure_length(self.header, self.lines)
+    header_as_text = ''
+    lines_as_text  = ''
 
-    print header 
+    for cell in header:
+      header_as_text += '| %s' % cell
+ 
+    header_as_text += ' |'
+
+    print '-' * (self.longest + 3) * len(header)
+    print header_as_text
+    print '-' * (self.longest + 3) * len(header)
+
     for line in lines:
-      print line
+      line_as_text = ''
+      for cell in line:
+        line_as_text += '| %s' % cell
+
+      lines_as_text += '%s |\n' % line_as_text
+
+    print lines_as_text
 
 
 PB = Pybles()
 PB.add_column('Name')
-PB.add_column('LastN')
-PB.add_line(['Guido', 'Accardo'])
-PB.add_line(['Delfi', 'Baravalle'])
+PB.add_column('Last')
+PB.add_column('Age')
+PB.add_line(['Guido', 'Accardo', '26'])
+PB.add_line(['Delfi', 'Baravalle', '23'])
+PB.add_line(['Rostulamo', 'Externocleidomastoideum', '50'])
 PB.show_table()
