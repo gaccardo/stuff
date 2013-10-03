@@ -23,7 +23,7 @@ class SSHER( object ):
 
     def __generateHosts( self ):
         index = 0
-        for server in self.config.getServers():
+        for server in self.config.get_servers():
             self.servers.append( Server( index,
                                          server['username'], 
                                          server['hostname'],
@@ -41,11 +41,11 @@ class SSHER( object ):
         if pro:
             print "| INDEX\t\t\t| HOSTNAME\t\t\t| USERNAME\t\t\t| TUNNEL\t\t\t|"
             for server in self.servers:
-                print "| %s\t\t\t| %s\t\t\t| %s\t\t\t| %s\t\t\t| %s" % ( server.getId(),
-                                                                      server.getHostname(),
-                                                                      server.getUsername(),
-                                                                      server.getTunnel(),
-                                                                      server.getPort(),
+                print "| %s\t\t\t| %s\t\t\t| %s\t\t\t| %s\t\t\t| %s" % ( server.get_id(),
+                                                                      server.get_hostname(),
+                                                                      server.get_username(),
+                                                                      server.get_tunnel(),
+                                                                      server.get_port(),
                                                                     )
         else:
             print "-----------------------------------------------------------------"
@@ -68,24 +68,24 @@ class SSHER( object ):
                 return server
 
     def __sshConnect( self, server ):
-        if server.getTunnel() == 'None':
-            if server.getPort() != 'None':
-                os.system( "ssh %s@%s -p %s" % ( server.getUsername(), server.getIp(), server.getPort() ) )
+        if server.get_tunnel() == 'None':
+            if server.get_port() != 'None':
+                os.system( "ssh %s@%s -p %s" % ( server.get_username(), server.get_ip(), server.get_port() ) )
 
         else:
-            print "ssh %s@%s -L %s" % ( server.getUsername(), 
-                                        server.getIp(),
-                                        server.getTunnel()
+            print "ssh %s@%s -L %s" % ( server.get_username(), 
+                                        server.get_ip(),
+                                        server.get_tunnel()
                                       )
-            if server.getPort() != 'None':
-                os.system( "ssh %s@%s -L %s" % ( server.getUsername(), 
-                                                 server.getIp(),
-                                                 server.getTunnel() ) )
+            if server.get_port() != 'None':
+                os.system( "ssh %s@%s -L %s" % ( server.get_username(), 
+                                                 server.get_ip(),
+                                                 server.get_tunnel() ) )
             else:
-                os.system( "ssh %s@%s -L %s -p %s" % ( server.getUsername(), 
-                                                 server.getIp(),
-                                                 server.getTunnel(),
-                                                 server.getPort() ) )
+                os.system( "ssh %s@%s -L %s -p %s" % ( server.get_username(), 
+                                                 server.get_ip(),
+                                                 server.get_tunnel(),
+                                                 server.get_port() ) )
 
     def main( self, args ):
         count = self.__generateHosts()

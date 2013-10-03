@@ -18,28 +18,28 @@ class Server( object ):
         else:
             return "%s %s@%s -L %s" % (self.id, self.username, self.hostname, self.tunnel)
 
-    def getUsername( self ):
+    def get_username( self ):
         return self.username
 
-    def getHostname( self ):
+    def get_hostname( self ):
         return self.hostname
 
-    def getIp( self ):
+    def get_ip( self ):
         return self.ip
 
-    def getId( self ):
+    def get_id( self ):
         return self.id
 
-    def getTunnel( self ):
+    def get_tunnel( self ):
         """
         (localport, remoteip, remoteport)
         """
         return self.tunnel
 
-    def getPort( self ):
+    def get_port( self ):
         return self.port
 
-    def setTunnel( self, tunnel ):
+    def set_tunnel( self, tunnel ):
         self.tunnel = tunnel
 
     

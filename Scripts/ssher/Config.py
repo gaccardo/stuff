@@ -9,7 +9,7 @@ class Config( object ):
         self.config     = ConfigParser.ConfigParser()
         self.config.read( configfile )
 
-    def getServers( self ):
+    def get_servers( self ):
         server = list()
 
         for section in self.config.sections():
