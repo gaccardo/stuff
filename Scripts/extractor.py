@@ -15,7 +15,12 @@ class Extractor(object):
 
   def __get_rars_list(self):
     result = [ f for f in listdir(self.rars_path) if isfile(join(self.rars_path, f)) ]
-    only_rar = [ join(self.rars_path, f) for f in result if f.split('.')[1] == 'rar' ]
+    try:
+      only_rar = [ join(self.rars_path, f) for f in result if f.split('.')[1] == 'rar' ]
+    except IndexError:
+      print "No se encontraron archivos .rar en esta carpeta"
+      sys.exit(-1)
+
     return only_rar
 
   def __get_rars_mp3(self):

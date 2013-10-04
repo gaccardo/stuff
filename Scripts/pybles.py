@@ -103,25 +103,3 @@ class Pybles(object):
 
     self.show_header(header)
     self.show_lines(lines, header)
-
-
-PB = Pybles()
-PB.add_column('Name')
-PB.add_column('Last')
-PB.add_column('Age')
-PB.add_column('Heigth')
-PB.add_line(['Guido', 'Accardo', '26', '187'])
-PB.add_line(['Delfi', 'Baravalle', '23', '162'])
-PB.add_line(['Rostulamo', 'Externocleidomastoideum', '50', '179'])
-
-"""
-PB.add_column('Name')
-PB.add_column('Last')
-PB.add_column('Age')
-PB.add_line(['Guido', 'Accardo', '26'])
-PB.add_line(['Delfi', 'Baravalle', '23'])
-PB.add_line(['Rostulamo', 'Externocleidomastoideum', '50'])
-PB.show_table()
-"""
-
-PB.show_table()
