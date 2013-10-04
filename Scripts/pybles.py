@@ -1,5 +1,11 @@
 #!/usr/bin/env python
 
+class IncorrectNumberOfCells(Exception):
+
+  def __str__(self):
+    return "La cantidad de celdas es incorrecta"
+
+
 class Pybles(object):
 
   def __init__(self):
@@ -15,7 +21,7 @@ class Pybles(object):
     if len(line) == self.get_columns_count():
       self.lines.append(line)
     else:
-      print "Lines len"
+      raise IncorrectNumberOfCells
 
   def get_columns_count(self):
     return len(self.header)
@@ -26,77 +32,94 @@ class Pybles(object):
   def get_lines(self):
     return self.lines
 
-  def get_longest_cell(self):
-    for cell in self.header:
-      if len(cell) > self.longest:
-        self.longest = len(cell)
+  def configure_length(self, old_header, old_lines):
+    header = list()
+    lines  = list()
 
-    for line in self.lines:
+    for cell in old_header:
+      header.append( {'name': cell, 'len': len(cell)} )
+
+    for line in old_lines:
+      tmp_line = list()
       for cell in line:
-        if len(cell) > self.longest:
-          self.longest = len(cell)
+        tmp_line.append( {'name': cell, 'len': len(cell)} )
 
-  def configure_length(self, header, lines):
-    new_header = list()
-    new_lines  = list()
+      lines.append(tmp_line)
+
+    return header, lines
+
+  def set_column_length(self, header, lines):
+    for cellnumber in range(len(header)):
+      for line in lines:
+        if header[cellnumber]['len'] < line[cellnumber]['len']:
+          header[cellnumber]['len'] = line[cellnumber]['len']
+
+    for cellnumber in range(len(header)):
+      for line in lines:
+        line[cellnumber]['len'] = header[cellnumber]['len']        
+
+    return header, lines
+
+  def show_dots(self, header):
+    dots = 0
+    for cell in header:
+      dots += cell['len']
+
+    dots = '-' * (dots + (3 * len(header)) + 1)
+
+    print dots
+
+  def show_header(self, header):
+    header_as_string = "|"
+
+    self.show_dots(header)
 
     for cell in header:
-      if len(cell) < self.longest:
-        add = self.longest - len(cell)
-        blank = ' ' * add
-        cell = '%s%s' % (cell, blank)
+      header_as_string += " %s%s |" % (cell['name'], " " * (cell['len'] - len(cell['name'])))
 
-        new_header.append(cell)
-      else:
-        new_header.append(cell)
+    print header_as_string
+
+    self.show_dots(header)
+
+  def show_lines(self, lines, header):
+    lines_as_string = ""
 
     for line in lines:
-      new_line = list()
+      lines_as_string += "|"
       for cell in line:
-        if len(cell) < self.longest:
-          add = self.longest - len(cell)
-          blank = ' ' * add
-          cell = '%s%s' % (cell, blank)
+        lines_as_string += " %s%s |" % (cell['name'], " " * (cell['len'] - len(cell['name'])))
 
-          new_line.append(cell)
-        else:
-          new_line.append(cell)
+      lines_as_string += "\n"
 
-      new_lines.append(new_line)
-
-
-    return new_header, new_lines
+    print lines_as_string.strip("\n") 
+    self.show_dots(header)
 
   def show_table(self):
-    self.get_longest_cell()
-    header, lines  = self.configure_length(self.header, self.lines)
-    header_as_text = ''
-    lines_as_text  = ''
+    header, lines = self.configure_length(self.header, self.lines)
+    header, lines = self.set_column_length(header, lines)
 
-    for cell in header:
-      header_as_text += '| %s' % cell
- 
-    header_as_text += ' |'
+    self.show_header(header)
+    self.show_lines(lines, header)
 
-    print '-' * (self.longest + 3) * len(header)
-    print header_as_text
-    print '-' * (self.longest + 3) * len(header)
-
-    for line in lines:
-      line_as_text = ''
-      for cell in line:
-        line_as_text += '| %s' % cell
-
-      lines_as_text += '%s |\n' % line_as_text
-
-    print lines_as_text
 
 
 PB = Pybles()
 PB.add_column('Name')
 PB.add_column('Last')
 PB.add_column('Age')
+PB.add_column('Heigth')
+PB.add_line(['Guido', 'Accardo', '26', '187'])
+PB.add_line(['Delfi', 'Baravalle', '23', '162'])
+PB.add_line(['Rostulamo', 'Externocleidomastoideum', '50', '179'])
+
+"""
+PB.add_column('Name')
+PB.add_column('Last')
+PB.add_column('Age')
 PB.add_line(['Guido', 'Accardo', '26'])
 PB.add_line(['Delfi', 'Baravalle', '23'])
 PB.add_line(['Rostulamo', 'Externocleidomastoideum', '50'])
+PB.show_table()
+"""
+
 PB.show_table()
