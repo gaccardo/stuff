@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+from blessings import Terminal
 
 class IncorrectNumberOfCells(Exception):
 
@@ -45,7 +46,10 @@ class Pybles(object):
     for line in old_lines:
       tmp_line = list()
       for cell in line:
-        tmp_line.append( {'name': cell, 'len': len(cell)} )
+        try:
+          tmp_line.append( {'name': cell, 'len': len(cell)} )
+        except TypeError:
+          tmp_line.append( {'name': cell, 'len': len(str(cell))} )
 
       lines.append(tmp_line)
 
@@ -84,22 +88,42 @@ class Pybles(object):
 
     self.show_dots(header)
 
-  def show_lines(self, lines, header):
+  def show_lines(self, lines, header, highlight=None):
     lines_as_string = ""
+    t = Terminal()
 
     for line in lines:
       lines_as_string += "|"
       for cell in line:
-        lines_as_string += " %s%s |" % (cell['name'], " " * (cell['len'] - len(cell['name'])))
+        try:
+          name = cell['name']
+          if highlight in name:
+            name = "%s%s%s" % (t.bold, name, t.normal)
+
+          lines_as_string += " %s%s |" % (name, " " * (cell['len'] - len(cell['name'])))
+        except TypeError:
+          lines_as_string += " %s%s |" % (name, " " * (cell['len'] - len(str(cell['name']))))
 
       lines_as_string += "\n"
 
     print lines_as_string.strip("\n") 
     self.show_dots(header)
 
-  def show_table(self):
+  def show_table(self, highlight=None):
     header, lines = self.configure_length(self.header, self.lines)
     header, lines = self.set_column_length(header, lines)
 
-    self.show_header(header)
-    self.show_lines(lines, header)
+    if len(header) != 0:
+      self.show_header(header)
+
+    if len(lines) != 0:
+      self.show_lines(lines, header, highlight)
+
+
+if __name__ == '__main__':
+  PB = Pybles()
+  PB.add_column('Nombre')
+  PB.add_column('Apellido')
+  PB.add_column('Edad')
+  PB.add_line(['Guido', 'Accardo', 26])
+  PB.show_table(highlight='Guido')

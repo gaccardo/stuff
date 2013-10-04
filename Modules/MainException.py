@@ -16,7 +16,7 @@ class MainException( Exception ):
                        {'name': 'ZeroDivision',          'code': 200},
                        {'name': 'UserNotAuthenticated',  'code': 300},
                        {'name': 'SMTPRecipientsRefused', 'code': 400},
-                     ]   
+                     ]
 
       self.__sendEmailException( msg, args, trace )
 
@@ -24,7 +24,7 @@ class MainException( Exception ):
       code    = self.__getCodeByException()
       mailer  = Mailer( self.MAILFROM, self.MAILTO, self.RELAY )
       text    = "An exception has occured in %s\n\n" % sys.argv[0]
-      text   += "MESSAGE: %s\n" % msg 
+      text   += "MESSAGE: %s\n" % msg
       text   += "WHERE: %s [ %s ]\n" % ( sys.argv[0], args )
       text   += "CODE: %s\n\n" % code
       text   += "** STACK TRACE **\n"

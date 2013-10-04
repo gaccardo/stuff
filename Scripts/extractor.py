@@ -32,7 +32,7 @@ class Extractor(object):
       for mp3_file in rf.infolist():
         if mp3_file.filename.split('.')[-1] == self.format:
           name = mp3_file.filename.split('\\')[-1]
-          result.append({'rar_file': rar_file, 'mp3_file': name})
+          result.append({'rar_file': rar_file, 'mp3_file': name, 'size': mp3_file.file_size})
 
     return result
 
@@ -75,26 +75,39 @@ class Extractor(object):
           new_file.write(buff)
           new_file.close()
 
-  def present_info_files(self, mp3):
+  def present_info_files(self, mp3, highligth):
     tabla = pybles.Pybles()
 
     tabla.add_column('RAR File')
     tabla.add_column('File Found')
+    tabla.add_column('Size')
 
     for ff in mp3:
-      tabla.add_line([ff['rar_file'], ff['mp3_file']])
+      tabla.add_line([ff['rar_file'], ff['mp3_file'], "%s K" % ff['size']])
 
-    tabla.show_table()
+    tabla.show_table(highligth)
 
   def present_info_uncompress(self, uncompress):
     for rar_file in uncompress:
       print " * %s" % rar_file
 
+  def present_all_mp3(self, mp3):
+    tabla = pybles.Pybles()
+
+    tabla.add_column('RAR File')
+    tabla.add_column('File')
+    tabla.add_column('Size')
+
+    for ff in mp3:
+      tabla.add_line([ff['rar_file'], ff['mp3_file'], "%s K" % ff['size']])
+
+    tabla.show_table()
+
   def run(self):
     mp3, uncompress = self.__get_what_rar_uncompress()
     
     print "\nLos siguientes archivos con formato %s fueron encontrados:" % sys.argv[2]
-    self.present_info_files(mp3)
+    self.present_info_files(mp3, sys.argv[1])
 
     print "Es necesario descomprimir los siguientes archivos:\n"
     self.present_info_uncompress(uncompress)
@@ -102,10 +115,17 @@ class Extractor(object):
     print "\nLos archivos resultantes quedaran en /tmp/%s/" % sys.argv[1]
 
     opt = str(raw_input('Continuar? <y/N>: '))
-
     if opt == 'y' or opt == 'Y':
       self.extract_mp3(mp3, uncompress)
 
+    opt = str(raw_input('Listar todos los mp3? <y/N>: '))    
+    if opt == 'y' or opt == 'Y':
+      self.present_all_mp3(self.__get_rars_mp3())
 
-ext = Extractor(getcwd(), sys.argv[1], sys.argv[2])
-ext.run()
+
+if __name__ == '__main__':
+  try:
+    ext = Extractor(getcwd(), sys.argv[1], sys.argv[2])
+    ext.run()
+  except IndexError:
+    print "ERROR: Cantidad de argumentos incorrectos"

@@ -5,7 +5,7 @@ import sys
 
 from MainException import *
 
-AUTHENTICATED = False
+AUTHENTICATED = True
 
 def auth(f):
    def inner(*args, **kwargs):
