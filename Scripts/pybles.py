@@ -35,12 +35,6 @@ class Pybles(object):
   def get_columns_count(self):
     return len(self.header)
 
-  def get_header(self):
-    return self.header
-
-  def get_lines(self):
-    return self.lines
-
   def configure_length(self, old_header, old_lines):
     header = list()
     lines  = list()

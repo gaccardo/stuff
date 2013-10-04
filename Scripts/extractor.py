@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 import rarfile
 import sys
+import pybles
 
 from os import listdir, mkdir, getcwd
 from os.path import isfile, join
@@ -69,9 +70,36 @@ class Extractor(object):
           new_file.write(buff)
           new_file.close()
 
+  def present_info_files(self, mp3):
+    tabla = pybles.Pybles()
+
+    tabla.add_column('RAR File')
+    tabla.add_column('File Found')
+
+    for ff in mp3:
+      tabla.add_line([ff['rar_file'], ff['mp3_file']])
+
+    tabla.show_table()
+
+  def present_info_uncompress(self, uncompress):
+    for rar_file in uncompress:
+      print " * %s" % rar_file
+
   def run(self):
     mp3, uncompress = self.__get_what_rar_uncompress()
-    self.extract_mp3(mp3, uncompress)
+    
+    print "\nLos siguientes archivos con formato %s fueron encontrados:" % sys.argv[2]
+    self.present_info_files(mp3)
+
+    print "Es necesario descomprimir los siguientes archivos:\n"
+    self.present_info_uncompress(uncompress)
+
+    print "\nLos archivos resultantes quedaran en /tmp/%s/" % sys.argv[1]
+
+    opt = str(raw_input('Continuar? <y/N>: '))
+
+    if opt == 'y' or opt == 'Y':
+      self.extract_mp3(mp3, uncompress)
 
 
 ext = Extractor(getcwd(), sys.argv[1], sys.argv[2])
