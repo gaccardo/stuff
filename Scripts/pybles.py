@@ -6,6 +6,12 @@ class IncorrectNumberOfCells(Exception):
     return "La cantidad de celdas es incorrecta"
 
 
+class HeaderAlreadySet(Exception):
+
+  def __str__(self):
+    return "El numero de columnas no puede ser modificado una vez seteadas filas"
+
+
 class Pybles(object):
 
   def __init__(self):
@@ -15,7 +21,10 @@ class Pybles(object):
     self.longest = 0
 
   def add_column(self, title):
-    self.header.append(title) 
+    if len(self.lines) == 0:
+      self.header.append(title) 
+    else:
+      raise HeaderAlreadySet
 
   def add_line(self, line):
     if len(line) == self.get_columns_count():
@@ -100,7 +109,6 @@ class Pybles(object):
 
     self.show_header(header)
     self.show_lines(lines, header)
-
 
 
 PB = Pybles()
