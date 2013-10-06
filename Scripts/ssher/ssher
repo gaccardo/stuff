@@ -6,6 +6,7 @@ import getpass
 
 from Config import Config
 from Server import Server
+from pybles import Pyble
 
 
 class SSHER( object ):
@@ -37,30 +38,20 @@ class SSHER( object ):
         return index
 
     def __showServersList( self, pro=False ):
+	PB = Pyble()
 
-        if pro:
-            print "| INDEX\t\t\t| HOSTNAME\t\t\t| USERNAME\t\t\t| TUNNEL\t\t\t|"
-            for server in self.servers:
-                print "| %s\t\t\t| %s\t\t\t| %s\t\t\t| %s\t\t\t| %s" % ( server.get_id(),
-                                                                      server.get_hostname(),
-                                                                      server.get_username(),
-                                                                      server.get_tunnel(),
-                                                                      server.get_port(),
-                                                                    )
-        else:
-            print "-----------------------------------------------------------------"
-            print "| ID\t| Connection                                            |"
-            print "-----------------------------------------------------------------"
+	PB.add_column('ID')
+	PB.add_column('HOSTNAME')
+	PB.add_column('IP')
+	PB.add_column('USERNAME')
+	PB.add_column('TUNNEL')
+	PB.add_column('PORT')
 
-            for server in self.servers:
-                if len(server.__str__().split(' ')[1]) >= 23:
-                    print "| %s\t| %s \t\t\t\t" % (server.__str__().split(' ')[0],
-                                                    server.__str__().split(' ')[1])
-                else:
-                    print "| %s\t| %s \t\t\t\t\t" % (server.__str__().split(' ')[0],
-                                                      server.__str__().split(' ')[1])
+	for server in self.servers:
+	    PB.add_line([server.get_id(), server.get_hostname(), server.get_ip(),
+                         server.get_username(), server.get_tunnel(), server.get_port()])
 
-            print "-----------------------------------------------------------------"
+	PB.show_table()
 
     def __getServerById( self, id ):
         for server in self.servers:
