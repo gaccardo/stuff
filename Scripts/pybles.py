@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 from blessings import Terminal
 
+import json
+
 class IncorrectNumberOfCells(Exception):
 
   def __str__(self):
@@ -13,13 +15,24 @@ class HeaderAlreadySet(Exception):
     return "El numero de columnas no puede ser modificado una vez seteadas filas"
 
 
-class Pybles(object):
+class Pyble(object):
 
-  def __init__(self):
-    self.table   = list()
-    self.header  = list()
-    self.lines   = list()
-    self.longest = 0
+  def __init__(self, row_token=None, column_token=None):
+    self.table        = list()
+    self.header       = list()
+    self.lines        = list()
+    self.longest      = 0
+    self.row_token    = '-'
+    self.column_token = '|'
+
+    if row_token != None:
+      self.row_token = row_token[0]
+
+    if column_token != None:
+      self.column_token = column_token[0]
+
+  def __str__(self):
+    self.get_table_info()
 
   def add_column(self, title):
     if len(self.lines) == 0:
@@ -72,17 +85,18 @@ class Pybles(object):
     for cell in header:
       dots += cell['len']
 
-    dots = '-' * (dots + (3 * len(header)) + 1)
+    dots = self.row_token * (dots + (3 * len(header)) + 1)
 
     print dots
 
   def show_header(self, header):
-    header_as_string = "|"
+    t = Terminal()
+    header_as_string = self.column_token
 
     self.show_dots(header)
 
     for cell in header:
-      header_as_string += " %s%s |" % (cell['name'], " " * (cell['len'] - len(cell['name'])))
+      header_as_string += " %s%s %s" % (cell['name'], " " * (cell['len'] - len(cell['name'])), self.column_token)
 
     print header_as_string
 
@@ -93,21 +107,36 @@ class Pybles(object):
     t = Terminal()
 
     for line in lines:
-      lines_as_string += "|"
+      lines_as_string += self.column_token
       for cell in line:
         try:
           name = cell['name']
           if highlight in name:
-            name = "%s%s%s" % (t.bold, name, t.normal)
+            name = "%s" % t.bold_black_on_yellow(name)
 
-          lines_as_string += " %s%s |" % (name, " " * (cell['len'] - len(cell['name'])))
+          lines_as_string += " %s%s %s" % (name, " " * (cell['len'] - len(cell['name'])), self.column_token)
         except TypeError:
-          lines_as_string += " %s%s |" % (name, " " * (cell['len'] - len(str(cell['name']))))
+          lines_as_string += " %s%s %s" % (name, " " * (cell['len'] - len(str(cell['name']))), self.column_token)
 
       lines_as_string += "\n"
 
     print lines_as_string.strip("\n") 
     self.show_dots(header)
+
+  def get_table_as_json(self):
+    header, lines = self.configure_length(self.header, self.lines)
+    header, lines = self.set_column_length(header, lines)
+
+    table = {}
+    table['header'] = header
+    table['rows'] = lines
+
+    return json.dumps(table)
+
+  def get_table_info(self):
+    print "Table information"
+    print "Columns count: %s" % len(self.header)
+    print "Rows count: %s" % len(self.lines)
 
   def show_table(self, highlight=None):
     header, lines = self.configure_length(self.header, self.lines)
@@ -121,9 +150,19 @@ class Pybles(object):
 
 
 if __name__ == '__main__':
-  PB = Pybles()
+  PB = Pyble('-', '|')
+
   PB.add_column('Nombre')
   PB.add_column('Apellido')
   PB.add_column('Edad')
+
   PB.add_line(['Guido', 'Accardo', 26])
-  PB.show_table(highlight='Guido')
+  PB.add_line(['Guido', 'Pepe', 56])
+  PB.add_line(['Tito', 'Puente', 26])
+  PB.add_line(['Rostulamo', 'Pernambucano da Silva', 26])
+
+  #PB.show_table(highlight='Guido')
+
+  #print PB.get_table_as_json()
+
+  PB.get_table_info()
