@@ -4,9 +4,12 @@ import sys
 import os
 import getpass
 
-from Config import Config
-from Server import Server
-from pybles import Pyble
+
+from ssher import Config, Server
+Config = Config.Config
+Server = Server.Server
+from pybles import pybles
+Pyble  = pybles.Pyble
 
 
 class SSHER( object ):
