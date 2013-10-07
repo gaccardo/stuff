@@ -41,15 +41,15 @@ class Pyble(object):
       raise HeaderAlreadySet
 
   def add_line(self, line):
-    if len(line) == self.get_columns_count():
+    if len(line) == self.__get_columns_count():
       self.lines.append(line)
     else:
       raise IncorrectNumberOfCells
 
-  def get_columns_count(self):
+  def __get_columns_count(self):
     return len(self.header)
 
-  def configure_length(self, old_header, old_lines):
+  def __configure_length(self, old_header, old_lines):
     header = list()
     lines  = list()
 
@@ -68,7 +68,7 @@ class Pyble(object):
 
     return header, lines
 
-  def set_column_length(self, header, lines):
+  def __set_column_length(self, header, lines):
     for cellnumber in range(len(header)):
       for line in lines:
         if header[cellnumber]['len'] < line[cellnumber]['len']:
@@ -80,7 +80,7 @@ class Pyble(object):
 
     return header, lines
 
-  def show_dots(self, header):
+  def __show_dots(self, header):
     dots = 0
     for cell in header:
       dots += cell['len']
@@ -89,20 +89,20 @@ class Pyble(object):
 
     print dots
 
-  def show_header(self, header):
+  def __show_header(self, header):
     t = Terminal()
     header_as_string = self.column_token
 
-    self.show_dots(header)
+    self.__show_dots(header)
 
     for cell in header:
       header_as_string += " %s%s %s" % (cell['name'], " " * (cell['len'] - len(cell['name'])), self.column_token)
 
     print header_as_string
 
-    self.show_dots(header)
+    self.__show_dots(header)
 
-  def show_lines(self, lines, header, highlight=None):
+  def __show_lines(self, lines, header, highlight=None):
     lines_as_string = ""
     t = Terminal()
 
@@ -121,11 +121,11 @@ class Pyble(object):
       lines_as_string += "\n"
 
     print lines_as_string.strip("\n") 
-    self.show_dots(header)
+    self.__show_dots(header)
 
   def get_table_as_json(self):
-    header, lines = self.configure_length(self.header, self.lines)
-    header, lines = self.set_column_length(header, lines)
+    header, lines = self.__configure_length(self.header, self.lines)
+    header, lines = self.__set_column_length(header, lines)
 
     table = {}
     table['header'] = header
@@ -139,14 +139,14 @@ class Pyble(object):
     print "Rows count: %s" % len(self.lines)
 
   def show_table(self, highlight=None):
-    header, lines = self.configure_length(self.header, self.lines)
-    header, lines = self.set_column_length(header, lines)
+    header, lines = self.__configure_length(self.header, self.lines)
+    header, lines = self.__set_column_length(header, lines)
 
     if len(header) != 0:
-      self.show_header(header)
+      self.__show_header(header)
 
     if len(lines) != 0:
-      self.show_lines(lines, header, highlight)
+      self.__show_lines(lines, header, highlight)
 
 
 if __name__ == '__main__':
@@ -161,8 +161,8 @@ if __name__ == '__main__':
   PB.add_line(['Tito', 'Puente', 26])
   PB.add_line(['Rostulamo', 'Pernambucano da Silva', 26])
 
-  #PB.show_table(highlight='Guido')
+  PB.show_table(highlight='Guido')
 
-  #print PB.get_table_as_json()
+  print PB.get_table_as_json()
 
   PB.get_table_info()
