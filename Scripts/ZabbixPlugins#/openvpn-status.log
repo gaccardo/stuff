@@ -1,0 +1,16 @@
+OpenVPN CLIENT LIST
+Updated,Tue Oct 22 12:55:22 2013
+Common Name,Real Address,Bytes Received,Bytes Sent,Connected Since
+guido,24.232.218.170:50706,57551460,352466586,Mon Oct 21 12:29:46 2013
+nemi-home,190.18.43.212:46636,22973,66857,Tue Oct 22 12:53:31 2013
+mediadesk-staging,184.172.11.46:27994,4635243,3652301,Wed Oct 16 14:50:12 2013
+nemi,24.232.218.170:44068,9501,50182,Tue Oct 22 12:53:22 2013
+ROUTING TABLE
+Virtual Address,Common Name,Real Address,Last Ref
+172.16.0.26,nemi-home,190.18.43.212:46636,Tue Oct 22 12:55:21 2013
+172.16.0.6,guido,24.232.218.170:50706,Tue Oct 22 12:55:18 2013
+172.16.0.22,mediadesk-staging,184.172.11.46:27994,Sat Oct 19 03:02:03 2013
+172.16.0.10,nemi,24.232.218.170:44068,Tue Oct 22 12:54:43 2013
+GLOBAL STATS
+Max bcast/mcast queue length,0
+END

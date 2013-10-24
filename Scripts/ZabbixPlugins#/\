@@ -1,0 +1,17 @@
+#!/usr/bin/env python
+
+import httplib
+
+h1 = httplib.HTTPConnection('10.0.0.227')
+h1.request('GET', '/lb_status')
+r1 = h1.getresponse()
+data = r1.read()
+lines = data.splitlines()
+
+
+for line in lines:
+  line = line.strip()
+
+  if line.startswith('<h2>'):
+    number = line.split(' ').strip(',')
+    print number
