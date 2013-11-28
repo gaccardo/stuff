@@ -469,10 +469,10 @@ cl.ruler = "#"
 
 while 1:
     try:
-	cl.cmdloop()
+        cl.cmdloop()
     except (KeyboardInterrupt):
-	print ""
+        print ""
         continue
-    except (SystemExit):
+        except (SystemExit):
         print "Best Regards"
         sys.exit()

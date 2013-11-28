@@ -1,0 +1,16 @@
+<html>
+ <head>
+
+ 	<script src="jquery-1.10.2.js"></script>
+  <script type="text/javascript">
+    $(document).ready(function() {
+    	$.getJSON("http://127.0.0.1:8092/default/_design/access/_view/Accesses?startkey=%221286536308_779%22&endkey=%221286536309_549%22&connect", function(accesses) {
+    		console.log(accesses);
+    	})
+    })
+  </script>
+ </head>
+
+ <body>
+ </body>
+</html>
