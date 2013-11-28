@@ -44,7 +44,7 @@ class Access( object ):
   def save(self, database):
     #database.add(self.time, self, format=FMT_PICKLE)
     try:
-      database.add(self.time.replace('.', '_'), self.get_document())
+      database.add(self.time.replace('.', '_').strip('\t'), self.get_document())
     except KeyExistsError:
       pass
 
@@ -53,7 +53,7 @@ class SquidLogParser( object ):
 
   def __init__(self):
     self.cb = Couchbase.connect(bucket='default')
-    self.logfile = 'access.log'
+    self.logfile = 'access_generated.log'
 
     
   def get_last_key(self):
