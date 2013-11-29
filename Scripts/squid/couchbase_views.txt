@@ -1,0 +1,65 @@
+dev_access
+ accesses
+  function (doc, meta) {
+    emit(meta.id, doc);
+  }
+
+dev_by_code
+ hits
+  function (doc, meta) {
+    var hit_status = doc.code.split('/')
+    if (hit_status[0] == "TCP_HIT") {
+      emit(meta.id, doc);
+    }
+  }
+
+ miss_200
+  function (doc, meta) {
+    var hit_status = doc.code.split('/')
+    if (hit_status[0] == "TCP_HIT") {
+      emit(meta.id, doc);
+    }
+  }
+
+ misses
+  function (doc, meta) {
+   var hit_status = doc.code.split('/')
+   if (hit_status[0] == "TCP_MISS") {
+     emit(meta.id, doc);
+   }
+  }
+
+ misses_count
+  function (doc, meta) {
+   var hit_status = doc.code.split('/')
+    if (hit_status[0] == "TCP_MISS") {
+      emit(meta.id, doc);
+    }
+  }
+
+  Reduce
+   _count
+
+dev_traffic
+ miss_traffic_by_domain
+  function (doc, meta) {
+    var code = doc.code.split('/');
+    if (code[0] == 'TCP_MISS') {
+      emit(doc.url, doc.data);
+    }
+  }
+
+  Reduce
+   _sum
+
+ miss_traffic_by_ip
+  function (doc, meta) {
+    var code = doc.code.split('/');
+    if (code[0] == 'TCP_MISS') {
+      emit(doc.ip, doc.data);
+    }
+  }
+
+  Reduce
+   _sum
+
