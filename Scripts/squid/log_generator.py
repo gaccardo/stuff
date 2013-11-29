@@ -14,7 +14,7 @@ class LogGenerator( object ):
 
 	def run(self):
 		f_p = open(self.file, 'w')
-		LINES = 5000
+		LINES = 335000
 
 		while LINES > 0:
 			f_p.write("%.10f\t %s %s %s %s %s %s %s %s %s\n" % ( time.time(),

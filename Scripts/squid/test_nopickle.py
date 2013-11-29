@@ -1,7 +1,11 @@
 #!/usr/bin/env python
- 
+
+import os
+import sys
+
 from couchbase import Couchbase, FMT_PICKLE
 from couchbase.views import iterator
+from couchbase.exceptions import KeyExistsError
 
 class Access( object ):
 
@@ -36,12 +40,16 @@ class Access( object ):
     return self.url
 
   def get_document(self):
-    return {'time': self.time, 'elapsed': self.elapsed, 'ip': self.ip,
-            'url': self.url, 'code': self.code, 'data': self.data, 
+    return {'time': self.time, 'elapsed': int(self.elapsed), 'ip': self.ip,
+            'url': self.url, 'code': self.code, 'data': int(self.data), 
             'method': self.method}
 
   def save(self, database):
-    database.add(self.time, self.get_document())
+    #database.add(self.time, self, format=FMT_PICKLE)
+    try:
+      database.add(self.time.replace('.', '_').strip('\t'), self.get_document())
+    except KeyExistsError:
+      pass
 
 
 class SquidLogParser( object ):
@@ -58,30 +66,43 @@ class SquidLogParser( object ):
       return 0
 
   def save_logs(self):
-    file_pointer = open(self.logfile, 'r')
-    file_buffer = file_pointer.readlines()
-    file_pointer.close()
-
+    counter = -1
+    f = open(self.logfile)
+    rawline = ""
+    os.lseek(f.fileno(), counter, 2)
     last_key = 0
 
-    for rawline in file_buffer:
-      r = [line for line in rawline.split(' ') if line]
-      if r[0] > self.get_last_key():
-        access = Access(r[0], r[1], r[2], r[3], r[4], r[5], r[6])
-        access.save(self.cb)
-        last_key = access.get_time()
+    for i in range(1000000):
+      char = os.read(f.fileno(), 1)
+      counter -= 1
+      rawline = "%s%s" % (char, rawline)
 
-    if last_key != 0:
-      self.cb.set('last_key', float(last_key))
+      if char == "\n":
+        rrr = [line for line in rawline.split(' ') if line]
+        rawline = ""
 
-  def get_logs(self):
-    query = iterator.Query(stale=False, limit=10)
-    view = iterator.View(self.cb, "access", "Accesses", query=query)
+        if rrr[0].split('\n')[1] >= self.get_last_key():
+          access = Access(rrr[0].split('\n')[1], 
+                          rrr[1], rrr[2], rrr[3], 
+                          rrr[4], rrr[5], rrr[6])
+          access.save(self.cb)
+
+          if access.get_time() > last_key:
+            last_key = access.get_time()
+
+        else:
+          break
+
+      try:
+        os.lseek(f.fileno(), counter, 2)
+      except OSError:
+        break
+
+
+    self.cb.set('last_key', last_key)
+
     
-
 
 if __name__ == '__main__':
   slp = SquidLogParser()
   slp.save_logs()
-  #slp.get_last_key()
-  #slp.get_logs()

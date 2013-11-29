@@ -111,4 +111,7 @@
 1286536331.040      5 192.168.0.227 TCP_MISS/503 855 GET http://s2.youtube.com/s? - NONE/- text/html
 1286536333.436     17 192.168.0.188 TCP_MISS/503 861 GET http://api.bing.com/qsml.aspx? - NONE/- text/html
 1286536351.746  41762 192.168.0.227 TCP_MISS/200 5340945 GET http://v15.lscache3.c.youtube.com/videoplayback? - DIRECT/122.160.120.150 video/x-flv
+1286536931.040      5 192.168.0.227 TCP_MISS/503 855 GET http://s2.youtube.com/s? - NONE/- text/html
+1286536333.436     17 192.168.0.188 TCP_MISS/503 861 GET http://api.bing.com/qsml.aspx? - NONE/- text/html
 1286536354.746  41762 192.168.0.227 TCP_MISS/200 5340945 GET http://v15.lscache3.c.youtube.com/videoplayback? - DIRECT/122.160.120.150 video/x-flv
+1286536954.746  41762 192.168.0.227 TCP_MISS/200 5340945 GET http://v15.lscache3.c.youtube.com/videoplayback? - DIRECT/122.160.120.150 video/x-flv
