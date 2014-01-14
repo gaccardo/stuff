@@ -56,7 +56,7 @@ class SquidLogParser( object ):
 
   def __init__(self):
     self.cb = Couchbase.connect(bucket='default')
-    self.logfile = 'access.log'
+    self.logfile = 'access_generated.log'
 
     
   def get_last_key(self):
@@ -74,6 +74,7 @@ class SquidLogParser( object ):
 
     for i in range(1000000):
       char = os.read(f.fileno(), 1)
+
       counter -= 1
       rawline = "%s%s" % (char, rawline)
 
