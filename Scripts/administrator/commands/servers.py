@@ -16,7 +16,6 @@ class ServersCommand(object):
 
 		table.show_table()
 
-
 class ServerinfoCommand(object):
 
 	def __process_users(self, homes):
@@ -59,3 +58,23 @@ class ServerinfoCommand(object):
 		print "NOT system users: %s" % self.__process_users(users)
 
 		self.__user_groups(self.__process_users(users), sshconnector)
+
+class SearchuserCommand(object):
+
+	def __process_users(self, homes):
+		users = list()
+		for home in homes['stdin']:
+			users.append(home.strip())
+
+		return users
+
+	def search(self, user, servers, sshconnector):
+		for server in servers:
+			tmp_conn = sshconnector.connect(server)
+
+			try:
+				users = sshconnector.cmd('ls /home/')
+				if user in self.__process_users(users):
+					print "%s has been found in %s" % (user, server.get_name())
+			except:
+				print "Server status: [ OFFLINE ]"

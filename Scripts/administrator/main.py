@@ -14,6 +14,7 @@ class AdministratorConsole( cmd.Cmd ):
 		cmd.Cmd.__init__(self)
 		self.servers_config = config.AdministratorConfig()
 		self.servers = self.servers_config.get_servers()
+		self.connected = None
 
 	def do_quit(self, args):
 		sys.exit(0)
@@ -30,6 +31,16 @@ class AdministratorConsole( cmd.Cmd ):
 		name = args.split(' ')[0]
 		servers_cmd = servers.ServerinfoCommand()
 		servers_cmd.get_info(name, self.servers_config, ssh)
+		self.connected = ssh.server
+
+	def do_adduser(self, args):
+		pass
+
+	def do_searchuser(self, args):
+		ssh = sshconnector.SSHConnector()
+		name = args.split(' ')[0]
+		servers_cmd = servers.SearchuserCommand()
+		servers_cmd.search(name, self.servers, ssh)
 
 	def do_deploy(self, args):
 		pass
