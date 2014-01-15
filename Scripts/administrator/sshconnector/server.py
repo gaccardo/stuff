@@ -1,10 +1,11 @@
 class Server(object):
 
-	def __init__(self, name, ip, username, port=None):
+	def __init__(self, name, ip, username, port=None, groups=None):
 		self.name = name
 		self.ip = ip
 		self.username = username
 		self.port = port
+		self.groups = groups.split(',')
 
 		if port is None:
 			self.port = 22
@@ -21,6 +22,9 @@ class Server(object):
 	def get_port(self):
 		return self.port
 
+	def get_groups(self):
+		return self.groups
+
 	def set_ip(self, ip):
 		self.ip = ip
 
@@ -33,8 +37,12 @@ class Server(object):
 	def set_port(self, port):
 		self.port = port
 
+	def set_groups(self, groups):
+		self.groups = groups.split(',')
+
 	def __str__(self):
-		return "<Server(name='%s', ip='%s', username='%s', port='%s')>" % (self.name, 
-			                                                                 self.ip,
-			                                                                 self.username,
-			                                                                 self.port)
+		return "<Server(name='%s', ip='%s', username='%s', port='%s', groups='%s')>" % (self.name, 
+																									                                  self.ip,
+																									                                  self.username,
+																									                                  self.port,
+																									                                  self.groups)

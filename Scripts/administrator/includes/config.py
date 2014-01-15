@@ -12,7 +12,8 @@ class AdministratorConfig(object):
 			self.servers.append(server.Server(serv,
 			                                  config.get(serv, 'ip'),
 			                                  config.get(serv, 'username'),
-			                                  config.get(serv, 'port')))
+			                                  config.get(serv, 'port'),
+			                                  config.get(serv, 'groups')))
 
 	def get_server_by_name(self, name):
 		for server in self.servers:
@@ -20,6 +21,14 @@ class AdministratorConfig(object):
 				return server
 
 		return None
+
+	def get_servers_by_group(self, group):
+		servers = list()
+		for server in self.servers:
+			if group in server.get_groups():
+				servers.append(server)
+
+		return servers
 
 	def get_servers(self):
 		return self.servers

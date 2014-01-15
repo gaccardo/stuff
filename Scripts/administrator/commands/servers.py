@@ -2,17 +2,20 @@ from pybles import pybles
 
 class ServersCommand(object):
 
-	def list(self, servers):
+	def list(self, servers, group=None):
 		table = pybles.Pyble()
 
 		table.add_column('Name')
 		table.add_column('IP')
 		table.add_column('Username')
 		table.add_column('Port')
+		table.add_column('Groups')
 
 		for server in servers:
-			table.add_line([server.get_name(), server.get_ip(), 
-				              server.get_username(), server.get_port()])
+			if group is None or group in server.get_groups():
+				table.add_line([server.get_name(), server.get_ip(), 
+					              server.get_username(), server.get_port(),
+					              ', '.join(server.get_groups())])
 
 		table.show_table()
 
@@ -78,3 +81,20 @@ class SearchuserCommand(object):
 					print "%s has been found in %s" % (user, server.get_name())
 			except:
 				print "Server status: [ OFFLINE ]"
+
+	def raw_search(self, user, servers, sshconnector):
+		found = list()
+		notfound = list()
+		for server in servers:
+			tmp_conn = sshconnector.connect(server)
+
+			try:
+				users = sshconnector.cmd('ls /home/')
+				if user in self.__process_users(users):
+					found.append(server)
+				else:
+					notfound.append(server)
+			except:
+				notfound.append(server)
+
+		return {'found': found, 'notfound': notfound}
